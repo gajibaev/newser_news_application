@@ -1,0 +1,50 @@
+name: news_application
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  news_repository:
+    path: packages/news_repository
+  cupertino_icons: ^1.0.2
+  dio: ^4.0.4
+  rxdart: ^0.27.3
+  google_fonts: ^2.1.1
+  shared_preferences: ^2.0.13
+  double_back_to_close_app: ^2.1.0
+  extended_image: ^6.0.1
+  date_time_format: ^2.0.1
+  shimmer_animation: ^2.1.0
+  theme_provider: ^0.5.0
+  status_bar_control: ^3.2.1
+  url_launcher: ^6.0.20
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^1.10.0
+  json_serializable: ^6.1.3
+  mocktail: ^0.2.0
+  test: ^1.16.4
+  change_app_package_name: ^1.0.0
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: RozhaOne     
+      fonts:
+        - asset: assets/fonts/Rozha One/RozhaOne-Regular.ttf 
+
+    - family: Chomsky     
+      fonts:
+        - asset: assets/fonts/Chomsky/Chomsky.ttf
