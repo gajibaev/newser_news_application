@@ -17,6 +17,6 @@ abstract class RestClient {
   Future<ArticleResponse> getArticles(@Path("source") String source,
       @Path("section") String section, @Query("api-key") String key);
 
-  @GET("/section-list.json?api-key=IfIkjNXQBaPVclsYanpWLHGXYXT6OpL0")
+  @GET("/section-list.json?api-key=[Your Api Key]")
   Future<SectionResponse> getSections(String key);
 }
