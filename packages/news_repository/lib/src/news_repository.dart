@@ -113,7 +113,7 @@ class NewsRepository {
     final _client = RestClient(dio,
         baseUrl: "https://api.nytimes.com/svc/news/v3/content/");
     var articleResponse = await _client
-        .getArticles(Source.all, section, 'IfIkjNXQBaPVclsYanpWLHGXYXT6OpL0')
+        .getArticles(Source.all, section, 'Your Api Key')
         .catchError(
       (obj) {
         logger.log(Level.error, obj.toString());
@@ -138,7 +138,7 @@ class NewsRepository {
         baseUrl: "https://api.nytimes.com/svc/news/v3/content/");
     try {
       await _client
-          .getSections('IfIkjNXQBaPVclsYanpWLHGXYXT6OpL0')
+          .getSections('Your Api Key')
           .then((value) {
         _sections = _filterSections(value.results!);
       });
