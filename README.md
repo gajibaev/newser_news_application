@@ -11,7 +11,7 @@ Framework - Flutter
 API - New Your Times API (only for personal use)  
 
   
-### A few words
+### A few words:
 During development,  
 I used Clean Architecture, worked with BLoC and Retrofit. 
 
