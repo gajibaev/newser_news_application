@@ -11,11 +11,9 @@ API - New Your Times API (only for personal use)
 
 ### A few words
 During development,  
-I used Clean Architecture,  
-worked with BLoC and Retrofit. 
+I used Clean Architecture, worked with BLoC and Retrofit. 
 
-This app helped me to better understand state management  
-and working with the Rest API. 
+This app helped me to better understand state management and working with the Rest API. 
 
 ### Presentation
 
