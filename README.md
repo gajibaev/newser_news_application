@@ -17,7 +17,7 @@ I used Clean Architecture, worked with BLoC and Retrofit.
 
 This app helped me to better understand state management and working with the Rest API. 
 
-### !!!:
+### !!!
 For use get api key from https://developer.nytimes.com/apis and set to api_key.dart in project directory
   
 ### Presentation
