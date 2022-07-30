@@ -7,7 +7,6 @@ import 'package:news_application/sections/view/sections_read_button.dart';
 import 'package:news_application/utils/utils.dart';
 import 'package:news_application/widgets/widgets.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:theme_provider/theme_provider.dart';
 
 class SectionsView extends StatefulWidget {
   const SectionsView({Key? key}) : super(key: key);
@@ -74,8 +73,6 @@ class _SectionsViewState extends State<SectionsView> {
                   selectedSectionIndex: selectedSectionIndex.stream,
                   onChangeSelectedItem: (index) {
                     selectedSectionIndex.add(index);
-                    BlocProvider.of<ArticlesBloc>(context)
-                        .add(SelectedSectionIndexChanged(index));
                   },
                 ),
               ),
@@ -148,10 +145,9 @@ class _SectionsViewState extends State<SectionsView> {
                         padding: const EdgeInsets.only(bottom: 25),
                         child: SectionsReadButton(
                           onPressed: () {
-                            context.read<ArticlesBloc>().add(
-                                  LoadArticlesByIndex(
-                                      selectedSectionIndex.value),
-                                );
+                            BlocProvider.of<ArticlesBloc>(context).add(
+                                LoadArticlesBySectionIndex(
+                                    selectedSectionIndex.value));
                             Navigator.pushNamed(context, 'articles')
                                 .then((value) => setState(() {}));
                           },

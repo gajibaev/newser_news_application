@@ -10,7 +10,7 @@ class Article {
     this.section,
     this.subsection,
     this.title,
-    this.abstract,
+    this.abstract_,
     this.uri,
     this.url,
     this.byline,
@@ -45,7 +45,7 @@ class Article {
   final String? title;
 
   @JsonValue("abstract")
-  final String? abstract;
+  final String? abstract_;
 
   @JsonValue("uri")
   final String? uri;

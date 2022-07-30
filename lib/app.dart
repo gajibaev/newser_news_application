@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_application/api_key.dart';
 import 'package:news_application/routes.dart';
 import 'package:news_application/sections/sections.dart';
 import 'package:news_application/splash/view/splash_page.dart';
@@ -17,15 +18,12 @@ import 'utils/utils.dart';
 class App extends StatelessWidget {
   const App({
     Key? key,
-    required this.newsRepository,
   }) : super(key: key);
-
-  final NewsRepository newsRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: newsRepository,
+    return RepositoryProvider(
+      create: (context) => NewsRepository(apiKey),
       child: const AppView(),
     );
   }
@@ -88,73 +86,77 @@ class _AppViewState extends State<AppView> {
               AppTheme(id: 'dark', data: darkTheme, description: ''),
             ],
             defaultThemeId: snapshot.data,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider<SectionsBloc>(
-                  create: (_) => SectionsBloc(
-                    newsRepository:
-                        RepositoryProvider.of<NewsRepository>(context),
+            child: RepositoryProvider(
+              create: (context) => NewsRepository(apiKey),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider<SectionsBloc>(
+                    create: (_) => SectionsBloc(
+                      newsRepository:
+                          RepositoryProvider.of<NewsRepository>(context),
+                    ),
                   ),
-                ),
-                BlocProvider<ArticlesBloc>(
-                  create: (_) => ArticlesBloc(
-                    newsRepository:
-                        RepositoryProvider.of<NewsRepository>(context),
+                  BlocProvider<ArticlesBloc>(
+                    create: (_) => ArticlesBloc(
+                      newsRepository:
+                          RepositoryProvider.of<NewsRepository>(context),
+                    ),
                   ),
-                ),
-              ],
-              child: ThemeConsumer(
-                child: Builder(
-                  builder: (context) {
-                    ThemeData themeData = ThemeProvider.themeOf(context).data;
-                    _setStatusBarStyle(themeData);
-                    return MaterialApp(
-                      theme: themeData,
-                      navigatorKey: _navigatorKey,
-                      debugShowCheckedModeBanner: false,
-                      onGenerateRoute: (settings) {
-                        if (settings.name == "/") {
-                          return Routes.fadeRoute(
-                            const SplashPage(),
-                            direction: AxisDirection.right,
-                            curve: Curves.easeInOutSine,
-                            duration: const Duration(milliseconds: 500),
-                          );
-                        } else if (settings.name == "sections") {
-                          return Routes.fadeRoute(
-                            const SectionsPage(),
-                            direction: settings.arguments as AxisDirection,
-                            curve: Curves.easeInOutSine,
-                            duration: const Duration(milliseconds: 500),
-                          );
-                        } else if (settings.name == "articles") {
-                          return Routes.fadeRoute(
-                            const ArticlesPage(),
-                            direction: AxisDirection.left,
-                            curve: Curves.easeInOutSine,
-                            duration: const Duration(milliseconds: 500),
-                          );
-                        } else if (settings.name == "article" &&
-                            settings.arguments is ArticleData) {
-                          return Routes.fadeRoute(
-                            const ArticlePage(),
-                            direction: AxisDirection.left,
-                            curve: Curves.easeInOutSine,
-                            duration: const Duration(milliseconds: 500),
-                          );
-                        }
-                        return null;
-                      },
-                      routes: {
-                        SplashPage.routeName: (context) => const SplashPage(),
-                        SectionsPage.routeName: (context) =>
-                            const SectionsPage(),
-                        ArticlesPage.routeName: (context) =>
-                            const ArticlesPage(),
-                        ArticlePage.routeName: (context) => const ArticlePage(),
-                      },
-                    );
-                  },
+                ],
+                child: ThemeConsumer(
+                  child: Builder(
+                    builder: (context) {
+                      ThemeData themeData = ThemeProvider.themeOf(context).data;
+                      _setStatusBarStyle(themeData);
+                      return MaterialApp(
+                        theme: themeData,
+                        navigatorKey: _navigatorKey,
+                        debugShowCheckedModeBanner: false,
+                        onGenerateRoute: (settings) {
+                          if (settings.name == "/") {
+                            return Routes.fadeRoute(
+                              const SplashPage(),
+                              direction: AxisDirection.right,
+                              curve: Curves.easeInOutSine,
+                              duration: const Duration(milliseconds: 500),
+                            );
+                          } else if (settings.name == "sections") {
+                            return Routes.fadeRoute(
+                              const SectionsPage(),
+                              direction: settings.arguments as AxisDirection,
+                              curve: Curves.easeInOutSine,
+                              duration: const Duration(milliseconds: 500),
+                            );
+                          } else if (settings.name == "articles") {
+                            return Routes.fadeRoute(
+                              const ArticlesPage(),
+                              direction: AxisDirection.left,
+                              curve: Curves.easeInOutSine,
+                              duration: const Duration(milliseconds: 500),
+                            );
+                          } else if (settings.name == "article" &&
+                              settings.arguments is ArticleData) {
+                            return Routes.fadeRoute(
+                              const ArticlePage(),
+                              direction: AxisDirection.left,
+                              curve: Curves.easeInOutSine,
+                              duration: const Duration(milliseconds: 500),
+                            );
+                          }
+                          return null;
+                        },
+                        routes: {
+                          SplashPage.routeName: (context) => const SplashPage(),
+                          SectionsPage.routeName: (context) =>
+                              const SectionsPage(),
+                          ArticlesPage.routeName: (context) =>
+                              const ArticlesPage(),
+                          ArticlePage.routeName: (context) =>
+                              const ArticlePage(),
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

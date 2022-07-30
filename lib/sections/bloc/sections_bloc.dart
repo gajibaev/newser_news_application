@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:news_application/utils/utils.dart';
 import 'package:news_repository/news_repository.dart';
 import 'package:news_application/sections/models/models.dart';
