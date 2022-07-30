@@ -2,8 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:news_application/articles/models/models.dart';
 import 'package:news_application/utils/load_info.dart';
+import 'package:news_application/utils/months.dart';
 import 'package:news_repository/news_repository.dart';
 import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
 
 part 'articles_event.dart';
 part 'articles_state.dart';
@@ -105,9 +107,25 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
         .toList();
   }
 
+  final DateFormat formatter = DateFormat('yyyy-mm-ddThh:mm:ss');
+
   String? _formateDateFromString(String? date) {
-    // TODO Добавить форматирование времени
-    return date;
+    if (date != null) {
+      final parsed = formatter.parse(date);
+      final formatted =
+          '${Months.getMonthName(parsed.month)} ${parsed.day} ${parsed.year} • ${_formateNumberLessTen(parsed.hour)}:${_formateNumberLessTen(parsed.minute)}';
+      return formatted;
+    } else {
+      return '';
+    }
+  }
+
+  String _formateNumberLessTen(int number) {
+    if (number < 10) {
+      return '0$number';
+    } else {
+      return number.toString();
+    }
   }
 
   String _getSectionNameByIndex(int index) {

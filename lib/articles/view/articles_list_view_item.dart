@@ -106,7 +106,7 @@ class ArticlesListViewItem extends StatelessWidget {
                           SizedBox(
                             width: 200,
                             child: Text(
-                              'Sept. 26 2022 · 15:15 PM',
+                              data.publishedDate ?? '',
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.roboto(
                                 color: theme.textTheme.bodyLarge!.color,

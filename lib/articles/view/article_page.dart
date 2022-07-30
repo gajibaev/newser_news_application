@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_application/articles/articles.dart';
 
 import 'article_view.dart';
 
@@ -7,8 +6,6 @@ class ArticlePage extends StatelessWidget {
   const ArticlePage({Key? key}) : super(key: key);
 
   static String get routeName => '/article';
-
-  // TODO Добавить блок вместо передачи аргумента
 
   @override
   Widget build(BuildContext context) {

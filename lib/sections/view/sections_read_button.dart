@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_application/widgets/swipes_detector.dart';
-import 'package:rxdart/subjects.dart';
 
 class SectionsReadButton extends StatelessWidget {
   const SectionsReadButton({Key? key, required this.onPressed})

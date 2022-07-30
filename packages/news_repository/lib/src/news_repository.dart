@@ -115,8 +115,6 @@ class NewsRepository {
     return loadedSectionArticles;
   }
 
-  // TODO Доработать обработку ошибок
-
   Future<List<Article>?> getArticlesFromServer(
       int limit, int offset, String section) async {
     var articleResponse =

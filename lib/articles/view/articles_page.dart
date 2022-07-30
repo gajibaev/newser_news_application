@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_application/articles/articles.dart';
-import 'package:news_application/widgets/will_pop_exit_scope.dart';
 
 import 'articles_view.dart';
 

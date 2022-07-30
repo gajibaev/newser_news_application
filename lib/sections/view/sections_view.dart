@@ -20,14 +20,6 @@ class _SectionsViewState extends State<SectionsView> {
 
   FixedExtentScrollController scrollController = FixedExtentScrollController();
 
-  void _scrollToIndex(int index) async {
-    selectedSectionIndex.add(index);
-    await Future.delayed(const Duration(milliseconds: 100));
-    scrollController.animateToItem(index,
-        curve: Curves.easeOutQuint,
-        duration: const Duration(milliseconds: 1000));
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);

@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'dart:async';
 
 import 'package:news_repository/news_repository.dart';
