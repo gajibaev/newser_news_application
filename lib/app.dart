@@ -65,8 +65,6 @@ class _AppViewState extends State<AppView> {
         ),
   );
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
-
   @override
   void initState() {
     _getStartTheme();
