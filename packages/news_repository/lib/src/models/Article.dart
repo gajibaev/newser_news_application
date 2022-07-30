@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, file_names
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:news_repository/src/models/models.dart';
 
@@ -10,7 +12,7 @@ class Article {
     this.section,
     this.subsection,
     this.title,
-    this.abstract,
+    this.abstract_,
     this.uri,
     this.url,
     this.byline,
@@ -45,7 +47,7 @@ class Article {
   final String? title;
 
   @JsonValue("abstract")
-  final String? abstract;
+  final String? abstract_;
 
   @JsonValue("uri")
   final String? uri;

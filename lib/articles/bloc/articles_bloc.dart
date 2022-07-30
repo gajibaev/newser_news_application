@@ -2,8 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:news_application/articles/models/models.dart';
 import 'package:news_application/utils/load_info.dart';
+import 'package:news_application/utils/months.dart';
 import 'package:news_repository/news_repository.dart';
 import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
 
 part 'articles_event.dart';
 part 'articles_state.dart';
@@ -13,16 +15,23 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       : _newsRepository = newsRepository,
         super(const ArticlesState(articles: [])) {
     on<ArticlesLoadInfoChanged>(_articleLoadInfoChanged);
-    on<SelectedSectionIndexChanged>(_onSelectedSectionIndexChanged);
-    on<LoadArticlesByIndex>(_onLoadSectionArticlesByIndex);
+    on<LoadArticlesBySectionIndex>(_onLoadSectionArticlesBySectionIndex);
     on<LoadArticlesBySectionName>(_onLoadSectionArticlesBySectionName);
+    on<SelectArticle>(_onSelectedArticle);
   }
 
   final NewsRepository _newsRepository;
   final Logger logger = Logger();
 
-  void _onLoadSectionArticlesByIndex(
-    LoadArticlesByIndex event,
+  void _onSelectedArticle(
+    SelectArticle event,
+    Emitter<ArticlesState> emit,
+  ) {
+    emit(state.copyWith(selectedArticleTitle: event.articleTitle));
+  }
+
+  void _onLoadSectionArticlesBySectionIndex(
+    LoadArticlesBySectionIndex event,
     Emitter<ArticlesState> emit,
   ) async {
     await _onLoadSectionArticles(
@@ -40,18 +49,14 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     String sectionName,
     Emitter<ArticlesState> emit,
   ) async {
-    _articleLoadInfoChanged(ArticlesLoadInfoChanged(LoadInfo.load), emit);
-    await _getSectionArticles(sectionName, emit).then(
+    add(ArticlesLoadInfoChanged(LoadInfo.load));
+    await _getArticles(sectionName).then(
       (value) {
-        emit.call(
-          state.copyWith(articles: _getArticlesData(value.articles)),
-        );
-        _articleLoadInfoChanged(ArticlesLoadInfoChanged(LoadInfo.loaded), emit);
+        emit.call(state.copyWith(articles: _getArticlesData(value.articles)));
+        add(ArticlesLoadInfoChanged(LoadInfo.loaded));
       },
     ).onError((error, stackTrace) {
-      _articleLoadInfoChanged(
-          ArticlesLoadInfoChanged(LoadInfo.error.copyWith(message: 'error')),
-          emit);
+      add(ArticlesLoadInfoChanged(LoadInfo.error));
     });
   }
 
@@ -72,27 +77,12 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
         'Articles load status changed: ${event.info.status} with message: ${event.info.message}');
   }
 
-  void _onSelectedSectionIndexChanged(
-    SelectedSectionIndexChanged event,
-    Emitter<ArticlesState> emit,
-  ) {
-    emit.call(state.copyWith(
-        selectedSectionName: _getSectionNameByIndex(event.sectionIndex)));
-  }
-
-  String _getSectionNameByIndex(int index) {
-    String? section = _newsRepository.getSections[index].section;
-    return section ?? 'world';
-  }
-
-  Future<SectionArticles> _getSectionArticles(
+  Future<SectionArticles> _getArticles(
     String section,
-    Emitter<ArticlesState> emit,
   ) async {
     return await _newsRepository
         .getSectionArticles(section)
         .onError((error, stackTrace) {
-      _articleLoadInfoChanged(ArticlesLoadInfoChanged(LoadInfo.error), emit);
       throw Exception(error);
     });
   }
@@ -110,15 +100,37 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
             source: e.source,
             publishedDate: _formateDateFromString(e.published_date),
             multimedia: _getMultimediaData(e.multimedia),
-            abstract: e.abstract,
+            abstract_: e.abstract_,
             byline: e.byline,
           ),
         )
         .toList();
   }
 
+  final DateFormat formatter = DateFormat('yyyy-mm-ddThh:mm:ss');
+
   String? _formateDateFromString(String? date) {
-    return date;
+    if (date != null) {
+      final parsed = formatter.parse(date);
+      final formatted =
+          '${Months.getMonthName(parsed.month)} ${parsed.day} ${parsed.year} • ${_formateNumberLessTen(parsed.hour)}:${_formateNumberLessTen(parsed.minute)}';
+      return formatted;
+    } else {
+      return '';
+    }
+  }
+
+  String _formateNumberLessTen(int number) {
+    if (number < 10) {
+      return '0$number';
+    } else {
+      return number.toString();
+    }
+  }
+
+  String _getSectionNameByIndex(int index) {
+    String? section = _newsRepository.getSections[index].section;
+    return section ?? 'world';
   }
 
   List<MultimediaData>? _getMultimediaData(List<Multimedia>? multimedia) {

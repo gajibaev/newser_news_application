@@ -35,7 +35,7 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'section': instance.section,
       'subsection': instance.subsection,
       'title': instance.title,
-      'abstract': instance.abstract,
+      'abstract': instance.abstract_,
       'uri': instance.uri,
       'url': instance.url,
       'byline': instance.byline,

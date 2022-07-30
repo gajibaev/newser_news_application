@@ -9,14 +9,8 @@ class ArticlesLoadInfoChanged extends ArticlesEvent {
   final LoadInfo info;
 }
 
-class SelectedSectionIndexChanged extends ArticlesEvent {
-  SelectedSectionIndexChanged(this.sectionIndex);
-
-  final int sectionIndex;
-}
-
-class LoadArticlesByIndex extends ArticlesEvent {
-  LoadArticlesByIndex(this.sectionIndex);
+class LoadArticlesBySectionIndex extends ArticlesEvent {
+  LoadArticlesBySectionIndex(this.sectionIndex);
 
   final int sectionIndex;
 }
@@ -25,4 +19,10 @@ class LoadArticlesBySectionName extends ArticlesEvent {
   LoadArticlesBySectionName(this.sectionName);
 
   final String sectionName;
+}
+
+class SelectArticle extends ArticlesEvent {
+  SelectArticle(this.articleTitle);
+
+  final String articleTitle;
 }

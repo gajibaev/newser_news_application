@@ -35,9 +35,7 @@ class ArticlesView extends StatelessWidget {
                         showAction: true,
                         onTap: () {
                           Navigator.pop(context, true);
-                          BlocProvider.of<ArticlesBloc>(context).add(
-                              LoadArticlesBySectionName(
-                                  state.selectedSectionName!));
+                          Navigator.pop(context, true);
                         },
                         routeOnDismiss: const RouteSettings(
                             name: 'sections', arguments: AxisDirection.left),
@@ -47,12 +45,14 @@ class ArticlesView extends StatelessWidget {
                   return LoadStatusWidget(
                     status: state.loadInfo.status,
                     onNotLoadedWidget: Container(),
-                    onLoadWidget: ArticlesListView(
-                      section: state.selectedSectionName ?? '',
+                    onLoadWidget: const ArticlesListView(
+                      section: '',
                       showShimmer: true,
                     ),
                     onLoadedWidget: ArticlesListView(
-                      section: state.selectedSectionName ?? '',
+                      section: state.articles.isNotEmpty
+                          ? state.articles[0].section ?? ''
+                          : '',
                       articles: state.articles,
                     ),
                     onErrorWidget: const ArticlesListView(

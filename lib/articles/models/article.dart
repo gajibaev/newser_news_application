@@ -9,7 +9,7 @@ class ArticleData {
 
   final String? title;
 
-  final String? abstract;
+  final String? abstract_;
 
   final String? uri;
 
@@ -44,7 +44,7 @@ class ArticleData {
     this.section,
     this.subsection,
     this.title,
-    this.abstract,
+    this.abstract_,
     this.uri,
     this.url,
     this.byline,

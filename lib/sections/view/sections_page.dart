@@ -5,6 +5,8 @@ import 'package:news_application/widgets/will_pop_exit_scope.dart';
 class SectionsPage extends StatelessWidget {
   const SectionsPage({Key? key}) : super(key: key);
 
+  static String get routeName => '/sections';
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);

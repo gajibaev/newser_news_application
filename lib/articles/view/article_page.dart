@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:news_application/articles/articles.dart';
 
 import 'article_view.dart';
 
 class ArticlePage extends StatelessWidget {
-  const ArticlePage({Key? key, this.data}) : super(key: key);
+  const ArticlePage({Key? key}) : super(key: key);
 
-  final ArticleData? data;
+  static String get routeName => '/article';
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +18,9 @@ class ArticlePage extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: theme.backgroundColor,
-          body: Padding(
-            padding: const EdgeInsets.all(0),
-            child: ArticleView(
-              data: data ?? ArticleData(),
-            ),
+          body: const Padding(
+            padding: EdgeInsets.all(0),
+            child: ArticleView(),
           ),
         ),
       ),

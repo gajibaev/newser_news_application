@@ -20,12 +20,14 @@ dependencies:
   google_fonts: ^2.1.1
   shared_preferences: ^2.0.13
   double_back_to_close_app: ^2.1.0
-  extended_image: ^6.0.1
+  extended_image: ^6.2.1
   date_time_format: ^2.0.1
   shimmer_animation: ^2.1.0
   theme_provider: ^0.5.0
   status_bar_control: ^3.2.1
   url_launcher: ^6.0.20
+  get_it: ^7.2.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

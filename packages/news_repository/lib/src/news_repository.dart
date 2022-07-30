@@ -16,13 +16,21 @@ class Source {
 }
 
 class NewsRepository {
-  late List<SectionArticles> _sectionArticles = [];
+  NewsRepository(String apiKey) {
+    final _dio = Dio();
+    _logger = Logger();
+    _client = RestClient(_dio);
+    _apiKey = apiKey;
+  }
+
+  late final List<SectionArticles> _sectionArticles = [];
   late List<Section> _sections = [];
 
   List<Section> get getSections => _sections;
 
-  final dio = Dio();
-  final logger = Logger();
+  late final String _apiKey;
+  late final Logger _logger;
+  late final RestClient _client;
 
   void _deleteSectionArticlesFromData(String section) {
     _sectionArticles.removeWhere((element) => element.section == section);
@@ -87,9 +95,8 @@ class NewsRepository {
     SectionArticles loadedSectionArticles;
     var articles =
         await getArticlesFromServer(50, 0, section).catchError((Object obj) {
-      logger.log(Level.error, obj.toString());
+      _logger.log(Level.error, obj.toString());
       throw Exception('error');
-      // ! - Слишком частый вызов ошибок
     });
     if (articles != null) {
       loadedSectionArticles = SectionArticles(
@@ -98,7 +105,7 @@ class NewsRepository {
         DateTime.now(),
       );
     } else {
-      logger.e('articles dont loaded');
+      _logger.e('articles dont loaded');
       loadedSectionArticles = SectionArticles(
         section,
         [],
@@ -110,13 +117,10 @@ class NewsRepository {
 
   Future<List<Article>?> getArticlesFromServer(
       int limit, int offset, String section) async {
-    final _client = RestClient(dio,
-        baseUrl: "https://api.nytimes.com/svc/news/v3/content/");
-    var articleResponse = await _client
-        .getArticles(Source.all, section, 'Your Api Key')
-        .catchError(
+    var articleResponse =
+        await _client.getArticles(Source.all, section, _apiKey).catchError(
       (obj) {
-        logger.log(Level.error, obj.toString());
+        _logger.log(Level.error, obj.toString());
         if (obj is DioError) {
           throw Exception(obj.response?.statusCode);
         }
@@ -134,12 +138,8 @@ class NewsRepository {
 
   Future<List<Section>> getSectionsFromServer() async {
     if (_sections.isNotEmpty) return _sections;
-    final _client = RestClient(dio,
-        baseUrl: "https://api.nytimes.com/svc/news/v3/content/");
     try {
-      await _client
-          .getSections('Your Api Key')
-          .then((value) {
+      await _client.getSections(_apiKey).then((value) {
         _sections = _filterSections(value.results!);
       });
     } on DioError catch (e) {

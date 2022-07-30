@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_application/articles/articles.dart';
 import 'package:news_application/articles/view/articles_list_header.dart';
@@ -89,6 +90,9 @@ class ArticlesListView extends StatelessWidget {
                               data: articles[index],
                               onPressed: () {
                                 if (articles.isNotEmpty) {
+                                  BlocProvider.of<ArticlesBloc>(context).add(
+                                      SelectArticle(
+                                          articles[index].title ?? ''));
                                   Navigator.pushNamed(
                                     context,
                                     'article',
