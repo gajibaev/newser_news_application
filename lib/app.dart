@@ -69,7 +69,7 @@ class _AppViewState extends State<AppView> {
   void initState() {
     _getStartTheme();
 
-    WidgetsBinding.instance!.addObserver(LifecycleEventHandler(
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(
         resumeCallBack: () async => setState(() {
               _getStartTheme();
             })));
@@ -137,9 +137,7 @@ class _AppViewState extends State<AppView> {
                         } else if (settings.name == "article" &&
                             settings.arguments is ArticleData) {
                           return Routes.fadeRoute(
-                            ArticlePage(
-                              data: settings.arguments as ArticleData,
-                            ),
+                            const ArticlePage(),
                             direction: AxisDirection.left,
                             curve: Curves.easeInOutSine,
                             duration: const Duration(milliseconds: 500),
@@ -148,11 +146,12 @@ class _AppViewState extends State<AppView> {
                         return null;
                       },
                       routes: {
-                        '/': (context) => const SplashPage(),
-                        '/sections': (context) => const SectionsPage(),
-                        '/articles': (context) => const ArticlesPage(),
-                        '/article': (context) =>
-                            ArticlePage(data: ArticleData()),
+                        SplashPage.routeName: (context) => const SplashPage(),
+                        SectionsPage.routeName: (context) =>
+                            const SectionsPage(),
+                        ArticlesPage.routeName: (context) =>
+                            const ArticlesPage(),
+                        ArticlePage.routeName: (context) => const ArticlePage(),
                       },
                     );
                   },
