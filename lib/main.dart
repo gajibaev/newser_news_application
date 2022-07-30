@@ -4,5 +4,3 @@ import 'package:news_application/app.dart';
 void main() {
   runApp(const App());
 }
-
-// TODO Почистить проект от проблем
