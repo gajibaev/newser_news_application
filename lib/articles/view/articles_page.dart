@@ -7,6 +7,8 @@ import 'articles_view.dart';
 class ArticlesPage extends StatelessWidget {
   const ArticlesPage({Key? key}) : super(key: key);
 
+  static String get routeName => '/articles';
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);

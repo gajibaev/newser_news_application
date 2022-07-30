@@ -7,6 +7,8 @@ import 'package:news_application/widgets/widgets.dart';
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
+  static String get routeName => '/';
+
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
